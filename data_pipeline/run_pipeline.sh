@@ -3,18 +3,20 @@
 start=`date +%s`
 echo "******************************************************" >> get_transform_load_new.log
 date >> get_transform_load_new.log
+
+# decompress the data folder
 tar -xf $1.tar.gz -C ../.
 rm $1.tar.gz
 
 # operator unit_id identification
-#echo "**************STAGE 1: Unit ID Classification to Operator and Operator Technology**************" >> get_transform_load_new.log
-#python3 operator_identification.py --data-folder $1
-#RESULT=$?
-#if [ $RESULT -ne 0 ];then 
-#   echo "Operator identification failed. exitiing the pipeline."
-#   exit 1
-#fi
-#echo "**************STAGE 1: Completed**************" >> get_transform_load_new.log
+echo "**************STAGE 1: Unit ID Classification to Operator and Operator Technology**************" >> get_transform_load_new.log
+python3 operator_identification.py --data-folder $1
+RESULT=$?
+if [ $RESULT -ne 0 ];then 
+  echo "Operator identification failed. exitiing the pipeline."
+  exit 1
+fi
+echo "**************STAGE 1: Completed**************" >> get_transform_load_new.log
 
 # validating the data
 echo "**************STAGE 2: Data Validation**************" >> get_transform_load_new.log
@@ -37,6 +39,7 @@ fi
 echo "**************STAGE 3: Completed**************" >> get_transform_load_new.log
 rm -rf $1/validated_data
 
+# compress the data folder
 tar -zcf $1.tar.gz $1 2>&1 >> get_transform_load_new.log
 rm -rf $1 2>&1 >> get_transform_load_new.log
 

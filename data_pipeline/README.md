@@ -1,11 +1,10 @@
 # B-Clear Project
 
 ## Installation and project setup steps
-- Have a elasticsearch cluster setup on cloud, copy the security.ini file to this folder
 - create a local virtualenv - ```virtualenv -p python3 venv```
 - activate the env - ```source venv/bin/activate```
 - install the python client libraries using the command ```pip install -r requirements.txt```
-- download the raw data to validate and upload to elasticsearch. link - https://www.fcc.gov/oet/mba/raw-data-releases
+- download the raw data from the fcc website. link - https://www.fcc.gov/oet/mba/raw-data-releases. scripts for this are also available in the folder [data_download_scripts](data_download_scripts/)
 
 ## Folder structure
 
@@ -13,21 +12,11 @@
 b-clear
     - 202201
     - 202202
-    .. data directories
-    ..
-    filtering_scripts
-        *scripts*
+    ... raw data directories
+    ...
     unit_profile_files
         *10 years for unit-profile files*
-    unit-profile-combined.csv
 ```
-
-
-## generate combined unit-profile files 
-
-- download all the unit-profile files from back in 2011. link - https://www.fcc.gov/general/measuring-broadband-america-measuring-fixed-broadband
--  run the script - `combine_profile_files.py` to get a combined unit-profile file later used for ISP mapping
-
 
 ## steps to run the pipeline 
 
@@ -45,18 +34,12 @@ since the raw data only has unit_ids and no information on ISP and ISP technolog
 - label any unclassified units based on the combined unit-profile file of that year.
 - Use the technical report of the year to classify all ISPs belonging to a single technology for that year.
 - label any unclassified units based on the combined unit-profile file of that year.
-- For any remaining unclassified units use the combined unit-profile file for that year to determine the speed tier for each technology. Calculate the average speed for each unit using the curr_httpgetmt.csv table. Based on the speed tier and average speed classify the technology. For example in the yr'21 4 ISPs used different technology and the speed tier for them was [('CenturyLink', 150), ('Hawaiian Telecom', 110), ('Frontier', 30), ('Cincinnati Bell', 110)], so for CenturyLink <150 would be classified as DSL and more than it would be Fiber.
-
-
-<!-- - For classification of technology all ISPs other than CenturyLink, Frontier and Hawaiian Telecom run on a single technology for the yr 21 onwards. 
-- Use the unit-profile file of the year to further classify any unclassified unit_ids
-- For the 3 ISP calculate the monthly average speed for each unit_id from the curr_httpmt table and based on the following speed cut-offs classify as DSL or Fiber. the cut-off speed based on the 2021 unit-profile file is [('CenturyLink', 150), ('Hawaiian Telecom', 110), ('Frontier', 30)]
-- <TODO> figuring out the technology of for older data. -->
+- For any remaining unclassified units use the combined unit-profile file for that year to determine the speed tier for each technology. Calculate the average speed for each unit using the curr_httpgetmt.csv table. Based on the speed tier and average speed classify the technology. For example in the yr'21 4 ISPs used different technology and the speed tier for them was [('CenturyLink', 150), ('Hawaiian Telecom', 110), ('Frontier', 30), ('Cincinnati Bell', 110)], so for CenturyLink <150 would be classified as DSL and more than it would be Fiber. This data for each year and ISP is available in the [constants.py](constants.py) file under the OPERATOR_TECHNOLOGY_YEAR variable. 
 <br/><br/>
 
 **Step 2: Run the Filters to validate the raw data**
 
-This step is performed by the script filter_data.py, the filters applied for each tables are configurable in the constants.py file. The filters applied for the 4 latency based tables are: 
+This step is performed by the script filter_data.py, the filters applied for each tables are configurable in the [constants.py](constants.py). The filters applied for the 4 latency based tables are: 
 
 ```py
 FILE_FILTER_MAP = {

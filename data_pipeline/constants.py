@@ -336,12 +336,12 @@ FILE_LIST = [
 ]
 
 UPLOAD_FILE_LIST = [
-    # "curr_udplatency.csv",
-    # "curr_ulping.csv",
-    # "curr_dlping.csv",
-    # "curr_ping.csv",
-    # "curr_httpgetmt.csv",
-    # "curr_httppostmt.csv",
+    "curr_udplatency.csv",
+    "curr_ulping.csv",
+    "curr_dlping.csv",
+    "curr_ping.csv",
+    "curr_httpgetmt.csv",
+    "curr_httppostmt.csv",
     "curr_udpjitter.csv",
 ]  
 

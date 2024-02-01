@@ -1,0 +1,2 @@
+
+This folder consists of the unit-profile and units-excluded files published by the FCC for each year up to 2021. This files are used to build the mapping between unit_id to ISP, ISP technology. This files are downloaded from the Validated Data page for each MBA report. link - https://www.fcc.gov/general/measuring-broadband-america-measuring-fixed-broadband.  
